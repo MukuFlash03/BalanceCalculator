@@ -43,7 +43,9 @@ public class Evaluator {
     }
     */
 
-    public void computeBalances() {
+    public void computeBalances() throws ParseException {
+
+        parseDates();
 
         for(String id : blackboard.getCustIDs())
             blackboard.addBalance(id, getBalances(id));
@@ -54,30 +56,46 @@ public class Evaluator {
 
     }
 
-    public List<String> getBalances(String id) {
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE, end = 0;
-        List<String> balance = new ArrayList<String>();
+    public Map<String, List<String>> getBalances(String id) throws ParseException {
+        
+        Map<String, List<String>> dateBals = new HashMap<>();
 
-        for (Transaction txn : blackboard.getTransactions()) {
-            // System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
-            if (!txn.getCustID().equals(id)) // use index of last reached txns to skip previous ids
-                continue;
-            end += txn.getAmount();
-            min = Math.min(min,end);
-            max = Math.max(max,end);
+        for (String dateStr : blackboard.getCustDates().get(id)) {
+            
+            int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE, end = 0;
+            List<String> balance = new ArrayList<String>();
+
+            for (Transaction txn : blackboard.getTransactions()) {
+                // System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
+
+                String strDate = txn.formatDateMonth(txn.getDate());
+
+                if (!txn.getCustID().equals(id)) // use index of last reached txns to skip previous ids
+                    continue;
+                if (!dateStr.equals(strDate))
+                    continue;
+
+                end += txn.getAmount();
+                min = Math.min(min,end);
+                max = Math.max(max,end);
+            }
+
+            // System.out.println(min + "\t" + max + "\t" + end);
+            balance.add(Integer.toString(min));
+            balance.add(Integer.toString(max));
+            balance.add(Integer.toString(end));
+
+            dateBals.put(dateStr, balance);
+
+            System.out.println(id + "\t" + dateStr + "\t" + balance);
         }
 
-        // System.out.println(min + "\t" + max + "\t" + end);
-        balance.add(Integer.toString(min));
-        balance.add(Integer.toString(max));
-        balance.add(Integer.toString(end));
-
-        return balance;
+        return dateBals;
     }
 
     public void parseDates() throws ParseException {
         blackboard.addCustDate();
-        blackboard.printCustDates();
+        // blackboard.printCustDates();
     }
     
 }

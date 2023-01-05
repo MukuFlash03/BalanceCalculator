@@ -2,6 +2,3 @@
 *.iml
 
 .idea/
-controller/
-model/
-view/

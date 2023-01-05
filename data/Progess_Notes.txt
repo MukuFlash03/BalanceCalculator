@@ -34,8 +34,17 @@ java src/AppMain.java data/input0.csv
  
  
 Can Parse following input data types: 0, 1, 4
-Multiple months parsing handled.
-Balances computation for multiple months pending.
+DONE - Multiple months parsing.
+DONE - Balances computation for multiple months.
+
+PENDING - Need to move call to Blackboard.addCustDates() from Evaluator to ParseTransaction
  
  
 Bug: Extra 03/2023 due to invalid data during manual data entry manipulation (Feb 30).
+
+
+Next major task: Handling multiple transactions on same day.
+1. Reorder day txns to put credits before debits (logic ready)
+2. Calculate total for that day and condense all amounts into one ending day balance.
+3. At this point entire data is converted in the form of type 0,1 input data.
+4. Previously developed code on 01/04 should work.

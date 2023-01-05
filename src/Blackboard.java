@@ -17,6 +17,7 @@ public class Blackboard extends Observable {
     private final Set<String> custIDs;
     private Map<String, Set<String>> custDates;
     private Map<String, List<String>> balances;
+    private Map<String, Map<String, List<String>>> outputBals;
 
     // Map<String, Map<DateStr, List<Integer>>> output = new HashMap<>();
     // A: All days; List of transactions per day
@@ -27,6 +28,7 @@ public class Blackboard extends Observable {
         this.custIDs = new HashSet<String>();
         this.balances = new HashMap<String, List<String>>();
         this.custDates = new HashMap<String, Set<String>>();
+        this.outputBals = new HashMap<String, Map<String, List<String>>>();
     }
 
     
@@ -67,10 +69,15 @@ public class Blackboard extends Observable {
         }
     }
 
+    public void addBalance(String id, Map<String, List<String>> dateBals) {
+        outputBals.put(id, dateBals);
+    }
+
+    /*
     public void addBalance(String id, List<String> balance) {
         balances.put(id, balance);
-
     }
+    */
 
     public void addCustID(String id) {
         if (!custIDs.contains(id))
@@ -95,6 +102,10 @@ public class Blackboard extends Observable {
 
     public Map<String, List<String>> getBalances() {
         return balances;
+    }
+
+    public Map<String, Set<String>> getCustDates() {
+        return custDates;
     }
 
     public void printCustDates() {
