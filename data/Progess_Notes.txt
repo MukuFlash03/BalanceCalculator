@@ -1,0 +1,41 @@
+01/02/2023
+
+Preliminary Review
+1. Understood problem.
+2. Analyzed sample data.
+3. Read FAQs.
+
+
+Sample Data
+1. Created 5 categories of sample data.
+2. All data is grouped by CustID (mentioned in FAQ)
+3. Types:
+a. 0 - Replica of given sample data
+b. 1 - Multiple months for custID added.
+c. 2 - Multiple txns on single date for custID added; no multiple months.
+d. 3 - Shuffled dates; multiple txns for single date; no multiple months.
+e. 4 - Shuffled dates; multiple txns for single date; multiple months.
+
+
+
+-------------
+
+javac src/AppMain.java
+javac src/Blackboard.java
+javac src/Evaluator.java
+javac src/ParseTransaction.java
+javac src/Transaction.java
+java src/AppMain.java data/input0.csv
+ ----------
+ 
+ 
+ 
+ 01/04/2023
+ 
+ 
+Can Parse following input data types: 0, 1, 4
+Multiple months parsing handled.
+Balances computation for multiple months pending.
+ 
+ 
+Bug: Extra 03/2023 due to invalid data during manual data entry manipulation (Feb 30).
