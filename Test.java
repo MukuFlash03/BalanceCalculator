@@ -20,5 +20,7 @@ public class Test {
         for (int txn : txns) {
             System.out.print(txn + "\t");
         }
+        System.out.println();
+        System.out.println(txns);
     }
 }

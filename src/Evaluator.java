@@ -45,14 +45,17 @@ public class Evaluator {
 
     public void computeBalances() throws ParseException {
 
-        parseDates();
+        // parseDates();
 
         for(String id : blackboard.getCustIDs())
             blackboard.addBalance(id, getBalances(id));
 
+        /* Wrong balances used
+        // Convert into code for writing data into CSV file
         for (List<String> balances : blackboard.getBalances().values()) {
             System.out.println("Min: " + balances.get(0) + "\t" + "Max: " + balances.get(1) + "\t" + "End: "+ balances.get(2));
         }
+        */
 
     }
 

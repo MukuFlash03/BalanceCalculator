@@ -29,7 +29,7 @@ public class ParseTransaction {
 			while (myReader.hasNextLine()) {
 				data = myReader.nextLine();
 				tokens = data.split(",");
-                if (tokens.length == 0) {
+                if (tokens.length == 0) {   // Handle empty line in input data
                     continue;
                 }
                 Transaction txn = new Transaction(tokens);
@@ -45,7 +45,27 @@ public class ParseTransaction {
 			e.printStackTrace();
 		}
 
-        printData();
+        // printData();
+
+        // blackboard.sortTransactions();
+        // blackboard.groupTransactions();
+        // blackboard.reorderTransactions();
+
+        System.out.println("\nFormatted Transactions\n");
+        blackboard.formatTransactions();
+        // printData();
+        blackboard.addCustDate();
+
+        // System.out.println("\nSwapped Transactions\n");
+        // blackboard.swapTransactions();
+        // printData();
+
+        System.out.println("\nReordered Transactions\n");
+        blackboard.reorderTransactions();
+        // printData();
+
+        blackboard.combineTransactions();
+        blackboard.printCombinedTransactions();
 	}
 
     public void printData() throws ParseException {
@@ -56,7 +76,11 @@ public class ParseTransaction {
                         + "\t" + txn.getAmount());
         }
 
+        System.out.println();
+
+        /*
         for (String custID : blackboard.getCustIDs())
             System.out.println(custID);
+        */
     }
 }
