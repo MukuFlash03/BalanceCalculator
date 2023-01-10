@@ -66,6 +66,8 @@ public class ParseTransaction {
 
         blackboard.combineTransactions();
         blackboard.printCombinedTransactions();
+
+        blackboard.listifyTransactions();
 	}
 
     public void printData() throws ParseException {

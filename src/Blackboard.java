@@ -51,66 +51,6 @@ public class Blackboard extends Observable {
         return INSTANCE;
     }
 
-    /*
-    public void swapTransactions() {
-        // Collections.swap(transactions, 8,9);
-
-        for (String id : groupedTransactions.keySet()) {
-            List<Transaction> transList = groupedTransactions.get(id);
-
-            int len = transList.size();
-            int l = 0, r = 0;
-            int amtL = 0, amtR = 0;
-            Date dateL, dateR;
-
-            while (l <= r && r <= len - 1) {
-                dateL = transList.get(l).getDate();
-                dateR = transList.get(r).getDate();
-
-                amtL = transList.get(l).getAmount();
-                amtR = transList.get(r).getAmount();
-
-                if (dateL != dateR) {
-                    System.out.println(dateL + "\t" + dateR);
-                    l = r;
-                }
-                else {
-                    if (amtL < 0 && amtR < 0)
-                        l++;
-            
-                    else if (amtL > 0 && amtR < 0)
-                    {
-                        Collections.swap(transList,l,r);
-                        l++;
-                        r--;
-                    }
-                    else if (amtL > 0 && amtR > 0)
-                        r++;
-                    else
-                        l++;
-
-                    r++;
-                }
-            }
-
-            System.out.println("Swapping attempt list check");
-            for (Transaction txn : transList)
-                System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
-            System.out.println();
-
-            groupedTransactions.replace(id, transList);
-        }
-
-        // /
-        for (Map.Entry<String, List<Transaction>> entry : groupedTransactions.entrySet()) {
-            System.out.println("ID = " + entry.getKey());
-            for (Transaction txn : entry.getValue())
-                System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
-        }
-        // /
-    }
-    */
-
     public void formatTransactions() {
         sortTransactions();
         groupTransactions();
@@ -158,12 +98,30 @@ public class Blackboard extends Observable {
         */
     }
 
+    public void listifyTransactions() throws ParseException {
+
+        List<Transaction> trans2 = new ArrayList<Transaction>();
+        for (Map.Entry<String, Map<String, List<Integer>>> entry : mergedAmts.entrySet()) {
+            for (Map.Entry<String, List<Integer>> entry2 : entry.getValue().entrySet()) {
+                for (Integer amount : entry2.getValue()) {
+                    String[] data = {entry.getKey(), entry2.getKey(), Integer.toString(amount)};
+                    Transaction txn = new Transaction(data);
+                    // transactions.add(txn);
+                    trans2.add(txn);
+                }
+            }
+        }
+
+        System.out.println("\nTrans2");
+        for (Transaction txn : trans2)
+            System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
+    }
+
     public void combineTransactions() {
         
         String prevID = transactions.get(0).getCustID();
         String currID = "";
         String dateStr = "";
-        // String prevDate = (transactions.get(0).getDate());
         int amount = 0;
 
         Map<String, List<Integer>> dateAmts = new TreeMap<>();
@@ -180,19 +138,11 @@ public class Blackboard extends Observable {
                 dateAmts = new TreeMap<>();
                 amountsList = new ArrayList<>();
                 amountsList.add(amount);
-                // dateStr = "";
             }
             else {
-                // dateStr = txn.convertDateToString(txn.getDate());
                 
-                if (!dateAmts.containsKey(dateStr)) {
+                if (!dateAmts.containsKey(dateStr))
                     amountsList = new ArrayList<>();
-                    // amountsList.add(amount);
-                    // dateAmts.put(dateStr, amountsList);
-                }
-                // else
-                //     dateAmts.replace(dateStr, amountsList);
-                // dateAmts.put(dateStr, amountsList);
 
                 if (amount < 0)
                     amountsList.add(amount);
