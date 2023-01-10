@@ -179,24 +179,25 @@ public class Blackboard extends Observable {
                 prevID = currID;
                 dateAmts = new TreeMap<>();
                 amountsList = new ArrayList<>();
+                amountsList.add(amount);
                 // dateStr = "";
             }
             else {
                 // dateStr = txn.convertDateToString(txn.getDate());
-
-                if (amount < 0)
-                    amountsList.add(amount);
-                else
-                    amountsList.add(0, amount);
                 
                 if (!dateAmts.containsKey(dateStr)) {
                     amountsList = new ArrayList<>();
-                    amountsList.add(amount);
+                    // amountsList.add(amount);
                     // dateAmts.put(dateStr, amountsList);
                 }
                 // else
                 //     dateAmts.replace(dateStr, amountsList);
                 // dateAmts.put(dateStr, amountsList);
+
+                if (amount < 0)
+                    amountsList.add(amount);
+                else
+                    amountsList.add(0, amount);
             }
             dateAmts.put(dateStr, amountsList);
         }
