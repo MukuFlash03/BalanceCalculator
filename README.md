@@ -3,6 +3,7 @@ Parses input csv data file containing transactions for different customers for d
 Computes minimum, maximum and ending balances per month per customer.
 
 Input File: Can be any filename, let's say:             input.csv
+
 Output File: Fixed filename generated in root folder:   Balances.csv
 
 To Run Code:
