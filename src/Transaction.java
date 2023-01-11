@@ -27,7 +27,6 @@ public class Transaction {
 
     public String formatDateMonth(Date date) throws ParseException {
         String dateStr = new SimpleDateFormat("MM/yyyy").format(date);
-        Date newDate = new SimpleDateFormat("MM/yyyy").parse(dateStr);
         return dateStr;
     }
 

@@ -8,9 +8,6 @@ public class DateSorter implements Comparator<Transaction> {
     // @Override
     public int compare(Transaction a, Transaction b)
     {
- 
-        // Returning the value after comparing the objects
-        // this will sort the data in Ascending order
         return a.getDate().compareTo(b.getDate());
     }
 }

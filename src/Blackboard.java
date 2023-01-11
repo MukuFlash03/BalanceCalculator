@@ -3,17 +3,15 @@ package src;
 import java.util.List;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.Date;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-public class Blackboard extends Observable {
+public class Blackboard {
     private static volatile Blackboard INSTANCE;
 
     private final List<Transaction> transactions;
@@ -22,10 +20,6 @@ public class Blackboard extends Observable {
     private Map<String, List<Transaction>> groupedTransactions;
     private Map<String, Map<String, List<String>>> outputBals;
     private Map<String, Map<String, List<Integer>>> mergedAmts;
-
-    // Map<String, Map<DateStr, List<Integer>>> output = new HashMap<>();
-    // A: All days; List of transactions per day
-    // B: All months; List of balances
 
     private Blackboard() {
         this.transactions = new ArrayList<Transaction>();
@@ -51,10 +45,13 @@ public class Blackboard extends Observable {
         return INSTANCE;
     }
 
-    public void formatTransactions() {
+    public void formatTransactions() throws ParseException {
         sortTransactions();
         groupTransactions();
-        // reorderTransactions();
+        addCustDate();
+        reorderTransactions();
+        combineTransactions();
+        listifyTransactions();
     }
 
     public void sortTransactions() {
@@ -63,14 +60,28 @@ public class Blackboard extends Observable {
 
     public void groupTransactions() {
         groupedTransactions = transactions.stream().collect(Collectors.groupingBy(o -> o.getCustID()));
+    }
 
-        /*
-        for (Map.Entry<String, List<Transaction>> entry : groupedTransactions.entrySet()) {
-            System.out.println("ID = " + entry.getKey());
-            for (Transaction txn : entry.getValue())
-                System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
+    public void addCustDate() throws ParseException {
+        String cusID = "", dateStr = "";
+
+        for (String id : custIDs) {
+            Set<String> dates = new HashSet<String>();
+            for (Transaction txn : transactions) {
+                cusID = txn.getCustID();
+
+                if (cusID.equals(id)) {
+                    dateStr = txn.formatDateMonth(txn.getDate());
+
+                    if (!dates.contains(dateStr))
+                        dates.add(dateStr);
+                    else
+                        continue;
+                }
+                else
+                    custDates.put(id, dates);
+            }
         }
-        */
     }
 
     public void reorderTransactions() {
@@ -84,38 +95,6 @@ public class Blackboard extends Observable {
                 trans2.add(txn);
             }
         }
-
-        /*
-        System.out.println("Trans2");
-        for (Transaction txn : trans2)
-            System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
-        */
-
-        /*
-        System.out.println("\nTransactions");
-        for (Transaction txn : transactions)
-            System.out.println(txn.getCustID() + "\t" + txn.convertDateToString(txn.getDate())  + "\t" + txn.getAmount());
-        */
-    }
-
-    public void listifyTransactions() throws ParseException {
-
-        List<Transaction> trans2 = new ArrayList<Transaction>();
-        transactions.clear();
-        for (Map.Entry<String, Map<String, List<Integer>>> entry : mergedAmts.entrySet()) {
-            for (Map.Entry<String, List<Integer>> entry2 : entry.getValue().entrySet()) {
-                for (Integer amount : entry2.getValue()) {
-                    String[] data = {entry.getKey(), entry2.getKey(), Integer.toString(amount)};
-                    Transaction txn = new Transaction(data);
-                    transactions.add(txn);
-                    trans2.add(txn);
-                }
-            }
-        }
-
-        System.out.println("\nTrans2");
-        for (Transaction txn : trans2)
-            System.out.println(txn.getCustID() + "\t" + txn.getDate() + "\t" + txn.getAmount());
     }
 
     public void combineTransactions() {
@@ -164,25 +143,18 @@ public class Blackboard extends Observable {
         }
     }
 
-    public void addCustDate() throws ParseException {
-        String cusID = "", dateStr = "";
+    public void listifyTransactions() throws ParseException {
 
-        for (String id : custIDs) {
-            Set<String> dates = new HashSet<String>();
-            for (Transaction txn : transactions) {
-                cusID = txn.getCustID();
-
-                if (cusID.equals(id)) {
-                    dateStr = txn.formatDateMonth(txn.getDate());
-                    // dt = txn.convertStringToDate2(dateStr);
-
-                    if (!dates.contains(dateStr))
-                        dates.add(dateStr);
-                    else
-                        continue;
+        List<Transaction> trans2 = new ArrayList<Transaction>();
+        transactions.clear();
+        for (Map.Entry<String, Map<String, List<Integer>>> entry : mergedAmts.entrySet()) {
+            for (Map.Entry<String, List<Integer>> entry2 : entry.getValue().entrySet()) {
+                for (Integer amount : entry2.getValue()) {
+                    String[] data = {entry.getKey(), entry2.getKey(), Integer.toString(amount)};
+                    Transaction txn = new Transaction(data);
+                    transactions.add(txn);
+                    trans2.add(txn);
                 }
-                else
-                    custDates.put(id, dates);
             }
         }
     }
@@ -218,6 +190,10 @@ public class Blackboard extends Observable {
 
     public Map<String, Map<String, List<String>>> getOutputBals() {
         return outputBals;
+    }
+
+    public Map<String, Map<String, List<Integer>>> getMergedAmts() {
+        return mergedAmts;
     }
 
     public void printCustDates() {
