@@ -21,6 +21,8 @@ public class AppMain {
 		evaluator.computeBalances();
         // evaluator.parseDates();
 
+        parser.writeToFile();
+
 
 		long finishTime = System.nanoTime();
         double executionTime = (double)(finishTime - startTime) / 1000000000.0;

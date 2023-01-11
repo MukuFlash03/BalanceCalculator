@@ -22,5 +22,18 @@ public class Test {
         }
         System.out.println();
         System.out.println(txns);
+
+
+        FileWriter file = null;
+        try {
+            file = new FileWriter("Balances.csv");
+            file.append("Hello");
+            file.append("\n");
+            file.append("World");
+            file.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

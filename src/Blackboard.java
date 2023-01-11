@@ -101,12 +101,13 @@ public class Blackboard extends Observable {
     public void listifyTransactions() throws ParseException {
 
         List<Transaction> trans2 = new ArrayList<Transaction>();
+        transactions.clear();
         for (Map.Entry<String, Map<String, List<Integer>>> entry : mergedAmts.entrySet()) {
             for (Map.Entry<String, List<Integer>> entry2 : entry.getValue().entrySet()) {
                 for (Integer amount : entry2.getValue()) {
                     String[] data = {entry.getKey(), entry2.getKey(), Integer.toString(amount)};
                     Transaction txn = new Transaction(data);
-                    // transactions.add(txn);
+                    transactions.add(txn);
                     trans2.add(txn);
                 }
             }

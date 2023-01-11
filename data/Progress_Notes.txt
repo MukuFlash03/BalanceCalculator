@@ -48,3 +48,15 @@ Next major task: Handling multiple transactions on same day.
 2. Calculate total for that day and condense all amounts into one ending day balance.
 3. At this point entire data is converted in the form of type 0,1 input data.
 4. Previously developed code on 01/04 should work.
+
+
+------------
+
+01/10
+
+Parsing logic complete.
+DONE: Write to CSV File
+
+PENDING: Sort final balances monthwise
+    Soln: TreeMap (preserve natural ordering)
+
