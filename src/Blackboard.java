@@ -1,7 +1,6 @@
 package src;
 
 import java.util.List;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
@@ -45,7 +44,7 @@ public class Blackboard {
         return INSTANCE;
     }
 
-    public void formatTransactions() throws ParseException {
+    public void formatTransactions() {
         sortTransactions();
         groupTransactions();
         addCustDate();
@@ -62,7 +61,7 @@ public class Blackboard {
         groupedTransactions = transactions.stream().collect(Collectors.groupingBy(o -> o.getCustID()));
     }
 
-    public void addCustDate() throws ParseException {
+    public void addCustDate() {
         String cusID = "", dateStr = "";
 
         for (String id : custIDs) {
@@ -143,7 +142,7 @@ public class Blackboard {
         }
     }
 
-    public void listifyTransactions() throws ParseException {
+    public void listifyTransactions() {
 
         List<Transaction> trans2 = new ArrayList<Transaction>();
         transactions.clear();

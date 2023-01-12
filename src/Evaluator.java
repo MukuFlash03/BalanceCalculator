@@ -2,7 +2,6 @@ package src;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.text.ParseException;
 import java.util.*;
 
 public class Evaluator {
@@ -13,12 +12,12 @@ public class Evaluator {
         this.blackboard = Blackboard.getInstance();
     }
 
-    public void computeBalances() throws ParseException {
+    public void computeBalances() {
         for(String id : blackboard.getCustIDs())
             blackboard.addBalance(id, getBalances(id));
     }
 
-    public Map<String, List<String>> getBalances(String id) throws ParseException {
+    public Map<String, List<String>> getBalances(String id) {
         
         Map<String, List<String>> dateBals = new HashMap<>();
 
@@ -46,7 +45,7 @@ public class Evaluator {
         return dateBals;
     }
 
-    public void parseDates() throws ParseException {
+    public void parseDates() {
         blackboard.addCustDate();
     }
     

@@ -10,7 +10,7 @@ public class Transaction {
     private final Date date;
     private final int amount;
 
-    public Transaction(String[] data) throws ParseException {
+    public Transaction(String[] data) {
         this.custID = data[0];
         this.date = convertStringToDate(data[1]);
         this.amount = Integer.parseInt(data[2]);
@@ -21,17 +21,31 @@ public class Transaction {
         return dt1.format(date);
     }
 
-    public Date convertStringToDate(String dateStr) throws ParseException {
-        return new SimpleDateFormat("MM/dd/yyyy").parse(dateStr);
+    public Date convertStringToDate(String dateStr) {
+        Date dt = new Date();
+        try {
+            dt = new SimpleDateFormat("MM/dd/yyyy").parse(dateStr);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dt;
     }
 
-    public String formatDateMonth(Date date) throws ParseException {
+    public String formatDateMonth(Date date) {
         String dateStr = new SimpleDateFormat("MM/yyyy").format(date);
         return dateStr;
     }
 
-    public Date convertStringToDate2(String dateStr) throws ParseException {
-        return new SimpleDateFormat("MM/yyyy").parse(dateStr);
+    public Date convertStringToDate2(String dateStr) {
+        Date dt = new Date();
+        try {
+            dt = new SimpleDateFormat("MM/yyyy").parse(dateStr);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dt;
     }
 
     

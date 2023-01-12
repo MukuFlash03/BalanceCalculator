@@ -3,7 +3,6 @@ package src;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 
 public class ParseTransaction {
 
@@ -20,7 +19,7 @@ public class ParseTransaction {
      * and stores data into blackboard
      * @param file File to be parsed
      */
-    public void parseTransactionFile(File file) throws ParseException {
+    public void parseTransactionFile(File file) {
         String data;
         String[] tokens;
         
@@ -48,7 +47,7 @@ public class ParseTransaction {
         blackboard.formatTransactions();
 	}
 
-    public void printData() throws ParseException {
+    public void printData() {
         for (Transaction txn : blackboard.getTransactions()) {
             System.out.println(txn.getCustID() 
                         + "\t" + txn.formatDateMonth(txn.getDate()) 

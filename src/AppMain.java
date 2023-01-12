@@ -1,11 +1,10 @@
 package src;
 
 import java.io.File;
-import java.text.ParseException;
 
 public class AppMain {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
 		long startTime = System.nanoTime(); 
         String filePath = args[0];
 
